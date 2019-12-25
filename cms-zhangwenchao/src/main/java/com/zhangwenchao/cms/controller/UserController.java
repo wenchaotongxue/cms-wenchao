@@ -25,7 +25,6 @@ import com.zhangwenchao.cms.service.ArticleService;
 import com.zhangwenchao.cms.service.UserService;
 import com.zhangwenchao.common.utils.StringUtils;
 
-
 @Controller
 @RequestMapping("/user/")
 public class UserController {
@@ -33,7 +32,6 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private ArticleService articleService;
-	
 	/**
 	 * @Title: login   
 	 * @Description: 用户登录界面   
@@ -43,7 +41,6 @@ public class UserController {
 	 */
 	@RequestMapping(value="login",method=RequestMethod.GET)
 	public Object login() {
-		
 		return "/user/login";
 	}
 	/**
@@ -68,10 +65,6 @@ public class UserController {
 		if(userInfo==null) {
 			return JsonResult.fail(1000, "用户名或密码错误");
 		}
-		
-		
-		
-		
 		//判断密码
 		String string2md5 = CmsMd5Util.string2MD5(user.getPassword());
 		if(string2md5.equals(userInfo.getPassword())) {

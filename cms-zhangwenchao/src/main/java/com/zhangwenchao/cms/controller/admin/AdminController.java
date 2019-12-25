@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhangwenchao.cms.pojo.Article;
 import com.zhangwenchao.cms.pojo.Channel;
+import com.zhangwenchao.cms.pojo.Comlain;
 import com.zhangwenchao.cms.pojo.User;
 import com.zhangwenchao.cms.service.ArticleService;
+import com.zhangwenchao.cms.service.ComlainService;
 import com.zhangwenchao.cms.service.UserService;
 
 @Controller
@@ -24,6 +27,8 @@ public class AdminController {
 	
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private ComlainService ComlainService;
 	
 	/**
 	 * @Title: login   
@@ -151,6 +156,37 @@ public class AdminController {
 		return articleService.addHot(article.getId());
 	}
 	
+	@RequestMapping("/comlain")
+	public String showComlatin(Model m,String complaintype,Integer num,Integer num2,@RequestParam(defaultValue="1")Integer currentPage) {
+		
+		  PageHelper.startPage(currentPage,4);
+		List<Comlain> list= ComlainService.comlainList(complaintype,num,num2);
+		  for (Comlain comlain : list) {
+			  System.out.println(comlain);
+			
+		}
+		  
+		  PageInfo pageInfo = new PageInfo<>(list);
+		  m.addAttribute("list", list);
+		  m.addAttribute("pageInfo", pageInfo);
+		  m.addAttribute("complaintype", complaintype);
+		  m.addAttribute("num", num);
+		  m.addAttribute("num2", num2);
+		
+		return "admin/comlain";	
+	}
+	
+	
+	@RequestMapping("/show")
+	 public String  show(Integer id,Model m,@RequestParam(defaultValue="1")Integer currentPage) {
+		 PageHelper.startPage(currentPage,4);
+		 List<Comlain> list =  ComlainService.show(id);
+		 PageInfo pageInfo = new PageInfo<>(list);
+		  m.addAttribute("list", list);
+		  m.addAttribute("pageInfo", pageInfo);
+		 
+		return "admin/show"; 
+	 }
 	
 
 }
