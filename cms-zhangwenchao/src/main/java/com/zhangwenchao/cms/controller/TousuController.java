@@ -45,7 +45,8 @@ public class TousuController {
 		//获取用户的id
 		comlain.setUserId(userInfo.getId());
 		//调用工具类判断路径是否空
-		if(StringUtils.isHttpUrl(comlain.getUrlip())&&!StringUtils.isBlank(comlain.getUrlip())) {
+		String StringUtilss ="http://";
+		if(StringUtilss.equals(comlain.getUrlip())&&!StringUtils.isBlank(comlain.getUrlip())) {
 			 boolean result = comlainService.add(comlain);
 			 if(result) {
 				 

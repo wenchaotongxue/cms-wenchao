@@ -175,11 +175,9 @@ public class AdminController {
 		
 		return "admin/comlain";	
 	}
-	
-	
 	@RequestMapping("/show")
 	 public String  show(Integer id,Model m,@RequestParam(defaultValue="1")Integer currentPage) {
-		 PageHelper.startPage(currentPage,4);
+		
 		 List<Comlain> list =  ComlainService.show(id);
 		 PageInfo pageInfo = new PageInfo<>(list);
 		  m.addAttribute("list", list);

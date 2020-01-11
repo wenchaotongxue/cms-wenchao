@@ -10,7 +10,7 @@
 <link href="/public/css/index.css" rel="stylesheet">
 <title>${article.title }</title>
 <script type="text/javascript">
-	var articleId = "${id}";
+var articleId = "${id}";
 </script>
 </head>
 <body>
@@ -84,12 +84,11 @@
 		</div>
 	</div>
 	
-	
 	<div class="modal" tabindex="-1" role="dialog" id="tousuModal">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title">投诉</h5>
+	        <h1 class="modal-title" style="color:red"> 投诉内容</h1>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -99,6 +98,14 @@
 	        	 <div class="form-group">
 				    <textarea class="form-control" id="content1" name="content1" rows="3"></textarea>
 				  </div>
+				   <input type="checkbox" name="complaintype" value="涉及黄色"> 涉及黄色
+				   <input type="checkbox" name="complaintype" value="涉及暴力"> 涉及暴力
+				   <input type="checkbox" name="complaintype" value="涉及违反宗教政策"> 涉及违反宗教政策
+				   <input type="checkbox" name="complaintype" value="涉及国家安全"> 涉及国家安全
+				   <input type="checkbox" name="complaintype" value="抄袭内容"> 抄袭内容
+				   <input type="checkbox" name="complaintype" value="其他"> 其他
+				   <br>
+				  证据URl地址 : <input type="text" name="urlip" id="urlip">
 	        </form>
 	      </div>
 	      <div class="modal-footer">
@@ -108,6 +115,7 @@
 	    </div>
 	  </div>
 	</div>
+	
 	
 	<script type="text/javascript" src="/public/js/jquery.min.1.12.4.js"></script>
 	<script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
@@ -147,14 +155,31 @@
 		
 		function tousu(){
 			var content = $("#content1").val();
-			$.post("/tousu/add",{content:content,articleId:articleId},function(res){
+			var urlip = $("#urlip").val();
+			 var complaintype = $("[name=complaintype]:checked").map(function(){
+				 return this.value;
+			 }).get().join();
+			 var userId = ${article.userId}
+			 $.post("/tousu/add",{articleId:articleId,urlip:urlip,complaintype:complaintype},function(res){
+				if(res.result){
+					alert("投诉成功");
+					$("#tousuModal").modal('hide');
+				}else{
+					$("#tousuModal").modal('hide');
+				}
+				
+				 
+			 })
+			 
+			 
+			/* $.post("/tousu/add",{content:content,articleId:articleId},function(res){
 				if(res.result){
 					alert("投诉成功");
 					$("#tousuModal").modal('hide');
 				}else{
 					alert("投诉失败");
 				}
-			})
+			}) */
 		}
 	</script>
 </body>
